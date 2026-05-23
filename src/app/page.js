@@ -40,6 +40,7 @@ export default function HomePage() {
   const [skills, setSkills] = useState([]);
   const [trackedApplications, setTrackedApplications] = useState([]);
   const [initialized, setInitialized] = useState(false);
+  const [theme, setTheme] = useState('light'); // 'light' is default (Internshala white style)
 
   const debouncedSearch = useDebounce(searchValue, 300);
 
@@ -49,6 +50,7 @@ export default function HomePage() {
     const savedFavorites = loadFavorites();
     const savedSkills = loadUserSkills();
     const savedApps = loadApplications();
+    const savedTheme = localStorage.getItem('internhub_theme') || 'light';
 
     if (savedFilters) {
       setFilters(savedFilters);
@@ -62,6 +64,12 @@ export default function HomePage() {
     }
     if (savedApps) {
       setTrackedApplications(savedApps);
+    }
+    setTheme(savedTheme);
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
     setInitialized(true);
   }, []);
@@ -89,6 +97,17 @@ export default function HomePage() {
     if (!initialized) return;
     saveApplications(trackedApplications);
   }, [trackedApplications, initialized]);
+
+  // Persist theme changes
+  useEffect(() => {
+    if (!initialized) return;
+    localStorage.setItem('internhub_theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme, initialized]);
 
   // Extract dynamic filter options from data
   const filterOptions = useMemo(
@@ -131,6 +150,11 @@ export default function HomePage() {
     setSkills(updatedSkills);
   }, []);
 
+  // Theme toggle handler
+  const handleToggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
+
   // Add application pipeline tracker handlers
   const handleTrackApplication = useCallback((internship) => {
     const today = new Date();
@@ -169,7 +193,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#05050a]">
+    <div className="flex min-h-screen flex-col bg-bg-page transition-colors duration-300">
       <Header
         activeView={activeView}
         onChangeView={setActiveView}
@@ -177,14 +201,16 @@ export default function HomePage() {
         onToggleFavorites={(show) => setShowFavoritesOnly(show)}
         skills={skills}
         onSaveSkills={handleSaveSkills}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Mobile filter toggle (Only show when exploring and not showing favorites) */}
       {activeView === 'explore' && !showFavoritesOnly && (
-        <div className="sticky top-16 z-30 border-b border-white/[0.04] bg-[#05050a]/90 px-4 py-3 backdrop-blur-lg lg:hidden">
+        <div className="sticky top-16 z-30 border-b border-border-theme bg-card/90 px-4 py-3 backdrop-blur-lg lg:hidden transition-colors duration-300">
           <button
             onClick={() => setMobileFilterOpen(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-indigo-500/30 hover:text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-border-theme bg-card hover:bg-bg-page py-2.5 text-sm font-medium text-text-sub hover:text-text-main transition-all active:scale-[0.98]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="4" y1="21" x2="4" y2="14" />
@@ -203,7 +229,7 @@ export default function HomePage() {
               filters.duration?.length > 0 ||
               (filters.stipend && filters.stipend !== 'all') ||
               filters.workFromHome) && (
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-500 px-1.5 text-[10px] font-bold text-white">
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-[10px] font-bold text-white">
                 !
               </span>
             )}
@@ -245,16 +271,16 @@ export default function HomePage() {
           <div className="w-full min-w-0 animate-fade-in">
             <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h2 className="text-xl font-black text-white flex items-center gap-2 select-none">
+                <h2 className="text-xl font-black text-text-main flex items-center gap-2 select-none">
                   <span>📋</span> Personal Application Pipeline
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-text-sub mt-1">
                   Drag, drop, or select card status to advance your internship recruitment stages. Keep interview notes private.
                 </p>
               </div>
               <button 
                 onClick={() => setActiveView('explore')}
-                className="self-start sm:self-center flex items-center gap-1.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] hover:border-white/10 px-4 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-all active:scale-[0.98]"
+                className="self-start sm:self-center flex items-center gap-1.5 rounded-xl bg-card border border-border-theme hover:bg-bg-page px-4 py-2 text-xs font-semibold text-text-sub hover:text-text-main transition-all active:scale-[0.98] cursor-pointer"
               >
                 <span>🔍</span> Find More Internships
               </button>
@@ -270,9 +296,9 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.04] py-6">
+      <footer className="border-t border-border-theme bg-card py-6 transition-all duration-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <p className="text-center text-[11px] text-slate-500">
+          <p className="text-center text-[11px] text-text-muted">
             Built with ❤️ using Next.js &amp; Tailwind CSS v4 • Custom student-centered features for Internshala
           </p>
         </div>
@@ -280,4 +306,5 @@ export default function HomePage() {
     </div>
   );
 }
+
 

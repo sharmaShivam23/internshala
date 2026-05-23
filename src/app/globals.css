@@ -1,29 +1,68 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-surface: rgba(255, 255, 255, 0.03);
-  --color-surface-hover: rgba(255, 255, 255, 0.06);
+  --color-bg-page: var(--background);
+  --color-text-main: var(--text-primary);
+  --color-text-sub: var(--text-secondary);
+  --color-text-muted: var(--text-tertiary);
+  --color-card: var(--card-bg);
+  --color-border-theme: var(--border-color);
+  --color-accent: var(--accent-color);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-bg: var(--accent-bg);
+  --color-accent-border: var(--accent-border);
+  --color-input: var(--input-bg);
+  --color-panel: var(--panel-bg);
+  --color-scrollbar: var(--scrollbar-thumb);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
+  --background: #f8f9fa;
+  --text-primary: #333333;
+  --text-secondary: #5a6b7c;
+  --text-tertiary: #94a3b8;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --accent-color: #008bdc; /* Internshala signature blue */
+  --accent-hover: #0077bd;
+  --accent-bg: rgba(0, 139, 220, 0.06);
+  --accent-border: rgba(0, 139, 220, 0.2);
+  --input-bg: #ffffff;
+  --panel-bg: #ffffff;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03);
+}
+
+.dark {
   --background: #05050a;
-  --foreground: #f8fafc;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --card-bg: rgba(255, 255, 255, 0.015);
+  --border-color: rgba(255, 255, 255, 0.06);
+  --accent-color: #6366f1; /* Premium Indigo */
+  --accent-hover: #4f46e5;
+  --accent-bg: rgba(99, 102, 241, 0.08);
+  --accent-border: rgba(99, 102, 241, 0.2);
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --panel-bg: rgba(10, 10, 20, 0.8);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+  --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 20px 0px rgba(99, 102, 241, 0.03);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text-primary);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Background gradient effect */
-body::before {
+/* Background gradient effect for dark theme only */
+.dark body::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -42,17 +81,17 @@ body::before {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.01);
+  background: transparent;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.4);
+  background: var(--accent-color);
 }
 
 /* Pulse animation for skeletons */
@@ -68,9 +107,9 @@ body::before {
 .animate-shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.01) 25%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.01) 75%
+    var(--card-bg) 25%,
+    var(--border-color) 50%,
+    var(--card-bg) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s ease-in-out infinite;
@@ -83,36 +122,41 @@ input[type='checkbox']:checked {
 
 /* Selection styling */
 ::selection {
+  background: rgba(0, 139, 220, 0.25);
+  color: inherit;
+}
+.dark ::selection {
   background: rgba(99, 102, 241, 0.35);
   color: white;
 }
 
-/* Glowing utilities */
+/* Glowing card structures */
 .glow-card {
-  backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-}
-
-.glow-card-hover {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glow-card-hover:hover {
-  background: rgba(255, 255, 255, 0.035);
-  border-color: rgba(99, 102, 241, 0.25);
+  border-color: var(--accent-color);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 0 15px 0px rgba(0, 139, 220, 0.05);
+  transform: translateY(-2px);
+}
+
+.dark .glow-card-hover:hover {
   box-shadow: 
     0 10px 30px -10px rgba(0, 0, 0, 0.6),
     0 0 20px 0px rgba(99, 102, 241, 0.06);
-  transform: translateY(-2px);
 }
 
 /* Glass panel */
 .glass-panel {
   backdrop-filter: blur(20px);
-  background: rgba(10, 10, 20, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
 }
 
 /* Keyframe animations */
@@ -151,4 +195,5 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
+
 

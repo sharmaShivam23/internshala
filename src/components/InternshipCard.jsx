@@ -29,9 +29,9 @@ export default function InternshipCard({
   const detailUrl = `https://internshala.com/internship/detail/${internship.url}`;
 
   const postedTypeColors = {
-    success: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    info: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-    warning: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+    success: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20 dark:text-emerald-400 dark:bg-emerald-500/5',
+    info: 'text-accent bg-accent-bg border-accent-border',
+    warning: 'text-amber-600 bg-amber-500/10 border-amber-500/20 dark:text-amber-400 dark:bg-amber-500/5',
   };
 
   // Compute Skill Match details
@@ -39,32 +39,32 @@ export default function InternshipCard({
 
   // Get color for match score
   const getMatchScoreColor = (pct) => {
-    if (pct >= 70) return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/35 shadow-emerald-500/5';
-    if (pct >= 35) return 'text-amber-400 bg-amber-500/10 border-amber-500/35 shadow-amber-500/5';
-    return 'text-indigo-400 bg-indigo-500/10 border-indigo-500/35 shadow-indigo-500/5';
+    if (pct >= 70) return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/35 dark:text-emerald-400 dark:bg-emerald-500/5';
+    if (pct >= 35) return 'text-amber-600 bg-amber-500/10 border-amber-500/35 dark:text-amber-400 dark:bg-amber-500/5';
+    return 'text-accent bg-accent-bg border-accent-border';
   };
 
   const statusLabels = {
-    applied: { text: 'Applied 📝', style: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/35' },
-    review: { text: 'In Review 🔍', style: 'text-blue-400 bg-blue-500/10 border-blue-500/35' },
-    interview: { text: 'Interviewing 🗓️', style: 'text-amber-400 bg-amber-500/10 border-amber-500/35 animate-pulse' },
-    offer: { text: 'Offer Secured! 🎉', style: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/35 shadow-emerald-500/10' },
-    closed: { text: 'Closed 🛑', style: 'text-slate-400 bg-white/5 border-white/10' }
+    applied: { text: 'Applied 📝', style: 'text-accent bg-accent-bg border-accent-border' },
+    review: { text: 'In Review 🔍', style: 'text-blue-500 bg-blue-500/10 border-blue-500/30 dark:text-blue-400 dark:bg-blue-500/5' },
+    interview: { text: 'Interviewing 🗓️', style: 'text-amber-600 bg-amber-500/10 border-amber-500/30 dark:text-amber-400 dark:bg-amber-500/5 animate-pulse' },
+    offer: { text: 'Offer Secured! 🎉', style: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30 dark:text-emerald-400 dark:bg-emerald-500/5 shadow-sm shadow-emerald-500/10' },
+    closed: { text: 'Closed 🛑', style: 'text-text-muted bg-bg-page border-border-theme' }
   };
 
   return (
     <div
       className={`group relative rounded-2xl border transition-all duration-300 ${
         isHovered
-          ? 'border-indigo-500/25 bg-white/[0.04] shadow-xl shadow-indigo-500/5 -translate-y-0.5'
-          : 'border-white/[0.06] bg-white/[0.015]'
+          ? 'border-accent/25 bg-card shadow-lg shadow-accent/5 -translate-y-0.5'
+          : 'border-border-theme bg-card'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Premium badge */}
       {internship.is_premium && (
-        <div className="absolute -top-px left-6 h-1 w-12 rounded-b-full bg-gradient-to-r from-indigo-500 to-violet-500 shadow-md shadow-indigo-500/20" />
+        <div className="absolute -top-px left-6 h-[2px] w-12 rounded-b-full bg-accent shadow-md shadow-accent/20" />
       )}
 
       <div className="p-5">
@@ -75,7 +75,7 @@ export default function InternshipCard({
               <img
                 src={logoUrl}
                 alt={internship.company_name}
-                className="h-11 w-11 shrink-0 rounded-xl border border-white/[0.06] bg-white/[0.04] object-contain p-1"
+                className="h-11 w-11 shrink-0 rounded-xl border border-border-theme bg-bg-page object-contain p-1"
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextElementSibling.style.display = 'flex';
@@ -83,17 +83,17 @@ export default function InternshipCard({
               />
             ) : null}
             <div
-              className={`h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 text-sm font-bold text-indigo-300 ${
+              className={`h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent/20 to-accent-hover/20 text-sm font-bold text-accent ${
                 logoUrl ? 'hidden' : 'flex'
               }`}
             >
               {internship.company_name?.charAt(0) || '?'}
             </div>
             <div className="min-w-0">
-              <h3 className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors truncate">
+              <h3 className="text-sm font-bold text-text-main group-hover:text-accent transition-colors truncate">
                 {internship.title}
               </h3>
-              <p className="mt-0.5 text-xs text-slate-400 truncate">
+              <p className="mt-0.5 text-xs text-text-sub truncate">
                 {internship.company_name}
               </p>
             </div>
@@ -111,15 +111,15 @@ export default function InternshipCard({
                 e.preventDefault();
                 onToggleFavorite?.(internship.id);
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.06] bg-white/[0.03] transition-all hover:border-red-500/30 hover:bg-red-500/10 active:scale-90"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-theme bg-card text-text-sub hover:border-red-500/30 hover:bg-red-500/5 hover:text-red-500 transition-all active:scale-90 cursor-pointer"
               aria-label={isFavorite ? 'Remove from saved' : 'Save internship'}
             >
               <svg
-                width="14"
-                height="14"
+                width="13"
+                height="13"
                 viewBox="0 0 24 24"
                 fill={isFavorite ? '#ef4444' : 'none'}
-                stroke={isFavorite ? '#ef4444' : '#64748b'}
+                stroke={isFavorite ? '#ef4444' : 'currentColor'}
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -133,25 +133,25 @@ export default function InternshipCard({
 
         {/* Tags */}
         <div className="mt-3.5 flex flex-wrap gap-1.5">
-          <span className="rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/15">
+          <span className="rounded-full bg-accent-bg px-2.5 py-1 text-xs font-semibold text-accent border border-accent-border">
             {internship.profile_name}
           </span>
           {locations.slice(0, 2).map((loc, i) => (
             <span
               key={i}
-              className="rounded-full bg-white/[0.03] px-2.5 py-1 text-xs text-slate-400 border border-white/[0.05]"
+              className="rounded-full bg-bg-page px-2.5 py-1 text-xs text-text-sub border border-border-theme"
             >
               <span className="mr-1">📍</span>
               {loc}
             </span>
           ))}
           {locations.length > 2 && (
-            <span className="rounded-full bg-white/[0.03] px-2.5 py-1 text-xs text-slate-400 border border-white/[0.05]">
+            <span className="rounded-full bg-bg-page px-2.5 py-1 text-xs text-text-sub border border-border-theme">
               +{locations.length - 2} more
             </span>
           )}
           {internship.work_from_home && (
-            <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-300 border border-emerald-500/15">
+            <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-300 border border-emerald-500/20 dark:border-emerald-500/15">
               🏠 Remote
             </span>
           )}
@@ -159,25 +159,25 @@ export default function InternshipCard({
 
         {/* Info Grid */}
         <div className="mt-4 grid grid-cols-3 gap-2">
-          <div className="rounded-xl bg-white/[0.01] p-2.5 border border-white/[0.04] text-center">
-            <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Stipend</p>
-            <p className="mt-0.5 text-xs font-bold text-white truncate">{stipendText}</p>
+          <div className="rounded-xl bg-bg-page p-2.5 border border-border-theme text-center">
+            <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Stipend</p>
+            <p className="mt-0.5 text-xs font-bold text-text-main truncate">{stipendText}</p>
           </div>
-          <div className="rounded-xl bg-white/[0.01] p-2.5 border border-white/[0.04] text-center">
-            <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Duration</p>
-            <p className="mt-0.5 text-xs font-bold text-white truncate">{internship.duration}</p>
+          <div className="rounded-xl bg-bg-page p-2.5 border border-border-theme text-center">
+            <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Duration</p>
+            <p className="mt-0.5 text-xs font-bold text-text-main truncate">{internship.duration}</p>
           </div>
-          <div className="rounded-xl bg-white/[0.01] p-2.5 border border-white/[0.04] text-center">
-            <p className="text-[9px] font-bold uppercase tracking-wider text-slate-500">Start Date</p>
-            <p className="mt-0.5 text-xs font-bold text-white truncate">{internship.start_date}</p>
+          <div className="rounded-xl bg-bg-page p-2.5 border border-border-theme text-center">
+            <p className="text-[9px] font-bold uppercase tracking-wider text-text-muted">Start Date</p>
+            <p className="mt-0.5 text-xs font-bold text-text-main truncate">{internship.start_date}</p>
           </div>
         </div>
 
         {/* Collapsible Skills Analyzer Panel */}
-        <div className="mt-4 border-t border-white/[0.04] pt-3">
+        <div className="mt-4 border-t border-border-theme pt-3">
           <button
             onClick={() => setShowInsights(!showInsights)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-semibold text-accent hover:text-accent-hover transition-colors cursor-pointer"
           >
             <span>📊</span>
             {showInsights ? 'Hide Skill Match Details' : 'View Skill Match Details'}
@@ -195,16 +195,16 @@ export default function InternshipCard({
           </button>
 
           {showInsights && (
-            <div className="mt-3 space-y-2.5 rounded-xl border border-white/[0.04] bg-white/[0.005] p-3 text-xs animate-fade-in">
+            <div className="mt-3 space-y-2.5 rounded-xl border border-border-theme bg-bg-page p-3 text-xs animate-fade-in">
               {/* Matched skills */}
               {matchingSkills.length > 0 && (
                 <div className="space-y-1">
-                  <p className="font-bold text-emerald-400 flex items-center gap-1">
+                  <p className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                     <span>✓</span> Matching Skills ({matchingSkills.length})
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {matchingSkills.map(s => (
-                      <span key={s} className="rounded bg-emerald-500/5 border border-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-300">
+                      <span key={s} className="rounded bg-emerald-500/5 border border-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-600 dark:text-emerald-300">
                         {s}
                       </span>
                     ))}
@@ -215,31 +215,31 @@ export default function InternshipCard({
               {/* Missing skills / skills to learn */}
               {missingSkills.length > 0 && (
                 <div className="space-y-1">
-                  <p className="font-bold text-amber-400 flex items-center gap-1">
+                  <p className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
                     <span>💡</span> Recommended to Learn / List ({missingSkills.length})
                   </p>
                   <div className="flex flex-wrap gap-1">
                     {missingSkills.map(s => (
-                      <span key={s} className="rounded bg-amber-500/5 border border-amber-500/20 px-2 py-0.5 text-[10px] text-amber-300">
+                      <span key={s} className="rounded bg-amber-500/5 border border-amber-500/20 px-2 py-0.5 text-[10px] text-amber-600 dark:text-amber-300">
                         {s}
                       </span>
                     ))}
                   </div>
-                  <p className="text-[9px] text-slate-500 italic mt-1 leading-relaxed">
+                  <p className="text-[9px] text-text-muted italic mt-1 leading-relaxed">
                     💡 Highlighting these on your resume improves selection odds!
                   </p>
                 </div>
               )}
 
               {matchingSkills.length === 0 && missingSkills.length === 0 && (
-                <p className="text-[10px] text-slate-500 italic">No specific skills mapping available for this generic profile.</p>
+                <p className="text-[10px] text-text-muted italic">No specific skills mapping available for this generic profile.</p>
               )}
             </div>
           )}
         </div>
 
         {/* Footer: Posting Label & Details Split button */}
-        <div className="mt-4 flex items-center justify-between border-t border-white/[0.04] pt-4">
+        <div className="mt-4 flex items-center justify-between border-t border-border-theme pt-4">
           <span
             className={`rounded-lg border px-2.5 py-1 text-[10px] font-semibold tracking-wide ${
               postedTypeColors[internship.posted_by_label_type] || postedTypeColors.info
@@ -257,7 +257,7 @@ export default function InternshipCard({
                 </span>
                 <button
                   onClick={() => onRemoveTrackedApplication?.(internship.id)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all hover:scale-105 active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
                   title="Stop tracking application"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -268,7 +268,7 @@ export default function InternshipCard({
             ) : (
               <button
                 onClick={() => onTrackApplication?.(internship)}
-                className="rounded-xl bg-white/[0.03] hover:bg-indigo-500/10 text-slate-300 hover:text-indigo-300 border border-white/[0.06] hover:border-indigo-500/30 px-3.5 py-1.5 text-xs font-bold transition-all hover:shadow-lg hover:shadow-indigo-500/5 active:scale-95"
+                className="rounded-xl bg-card hover:bg-accent-bg text-text-sub hover:text-accent border border-border-theme hover:border-accent-border px-3.5 py-1.5 text-xs font-bold transition-all hover:shadow-md hover:shadow-accent/5 active:scale-95 cursor-pointer"
               >
                 Track App 📋
               </button>
@@ -279,7 +279,7 @@ export default function InternshipCard({
               href={detailUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:shadow-xl hover:shadow-indigo-500/30 hover:brightness-110 active:scale-[0.97]"
+              className="flex items-center gap-1 rounded-xl bg-accent hover:bg-accent-hover px-3.5 py-1.5 text-xs font-bold text-white shadow-lg shadow-accent/15 transition-all hover:shadow-xl hover:shadow-accent/25 hover:brightness-110 active:scale-[0.97]"
             >
               Apply
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -292,4 +292,5 @@ export default function InternshipCard({
     </div>
   );
 }
+
 

@@ -9,30 +9,32 @@ export default function Header({
   favoriteCount = 0, 
   onToggleFavorites,
   skills = [],
-  onSaveSkills
+  onSaveSkills,
+  theme,
+  onToggleTheme
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showFavs, setShowFavs] = useState(false);
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#05050a]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-border-theme bg-card/85 backdrop-blur-xl transition-all duration-300">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-hover shadow-lg shadow-accent/25">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                 <path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-white select-none">
-              Intern<span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Hub</span>
+            <h1 className="text-xl font-bold tracking-tight text-text-main select-none">
+              Intern<span className="text-accent">Hub</span>
             </h1>
           </div>
 
           {/* Sliding Tab Switcher in Center */}
-          <div className="hidden md:flex rounded-xl bg-white/[0.03] border border-white/[0.06] p-1">
+          <div className="hidden md:flex rounded-xl bg-bg-page border border-border-theme p-1">
             <button
               onClick={() => {
                 onChangeView?.('explore');
@@ -43,8 +45,8 @@ export default function Header({
               }}
               className={`rounded-lg px-4 py-1.5 text-xs font-semibold tracking-wide transition-all ${
                 activeView === 'explore' && !showFavs
-                  ? 'bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/10'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-accent text-white shadow-md shadow-accent/15'
+                  : 'text-text-sub hover:text-text-main'
               }`}
             >
               Explore Internships
@@ -59,8 +61,8 @@ export default function Header({
               }}
               className={`rounded-lg px-4 py-1.5 text-xs font-semibold tracking-wide transition-all ${
                 activeView === 'tracker' && !showFavs
-                  ? 'bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/10'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-accent text-white shadow-md shadow-accent/15'
+                  : 'text-text-sub hover:text-text-main'
               }`}
             >
               Application Tracker
@@ -69,14 +71,34 @@ export default function Header({
 
           {/* Action Buttons on Right */}
           <div className="flex items-center gap-2">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={onToggleTheme}
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-border-theme bg-card hover:bg-bg-page text-text-sub hover:text-text-main transition-all active:scale-[0.9] cursor-pointer"
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {theme === 'dark' ? (
+                // Sun Icon
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                </svg>
+              ) : (
+                // Moon Icon
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+              )}
+            </button>
+
             {/* Skills Profile Button */}
             <button
               onClick={() => setIsDrawerOpen(true)}
-              className="group flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2 text-xs font-semibold text-slate-300 transition-all hover:border-indigo-500/30 hover:bg-indigo-500/5 hover:text-white"
+              className="group flex items-center gap-2 rounded-xl border border-border-theme bg-card px-3 py-2 text-xs font-semibold text-text-sub transition-all hover:border-accent/30 hover:bg-accent-bg hover:text-text-main cursor-pointer"
             >
               <span>⚡</span>
               <span className="hidden sm:inline">My Skills</span>
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/30 px-1 text-[10px] font-bold text-indigo-300 transition-all group-hover:bg-indigo-500 group-hover:text-white">
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-lg bg-accent-bg border border-accent-border px-1 text-[10px] font-bold text-accent transition-all group-hover:bg-accent group-hover:text-white">
                 {skills.length}
               </span>
             </button>
@@ -91,11 +113,11 @@ export default function Header({
                   onChangeView?.('explore'); // Reset to list view if looking at favorites
                 }
               }}
-              className="group relative flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-2 text-xs font-semibold text-slate-300 transition-all hover:border-red-500/30 hover:bg-red-500/5 hover:text-white"
+              className="group relative flex items-center gap-2 rounded-xl border border-border-theme bg-card px-3 py-2 text-xs font-semibold text-text-sub transition-all hover:border-red-500/30 hover:bg-red-500/5 hover:text-text-main cursor-pointer"
             >
               <svg
-                width="14"
-                height="14"
+                width="13"
+                height="13"
                 viewBox="0 0 24 24"
                 fill={showFavs ? '#ef4444' : 'none'}
                 stroke={showFavs ? '#ef4444' : 'currentColor'}
@@ -108,7 +130,7 @@ export default function Header({
               </svg>
               <span className="hidden sm:inline">Saved</span>
               {favoriteCount > 0 && (
-                <span className="flex h-5 min-w-5 items-center justify-center rounded-lg bg-red-500/10 border border-red-500/30 px-1 text-[10px] font-bold text-red-400">
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-lg bg-red-500/10 border border-red-500/30 px-1 text-[10px] font-bold text-red-500">
                   {favoriteCount}
                 </span>
               )}
@@ -117,7 +139,7 @@ export default function Header({
         </div>
 
         {/* Mobile Tab Switcher */}
-        <div className="flex md:hidden border-t border-white/[0.04] bg-white/[0.005] p-1.5 justify-around">
+        <div className="flex md:hidden border-t border-border-theme bg-card p-1.5 justify-around">
           <button
             onClick={() => {
               onChangeView?.('explore');
@@ -128,8 +150,8 @@ export default function Header({
             }}
             className={`flex-1 text-center py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all ${
               activeView === 'explore' && !showFavs
-                ? 'bg-white/[0.04] border border-white/[0.06] text-white'
-                : 'text-slate-500 hover:text-slate-300'
+                ? 'bg-bg-page border border-border-theme text-text-main'
+                : 'text-text-muted hover:text-text-sub'
             }`}
           >
             Explore
@@ -144,8 +166,8 @@ export default function Header({
             }}
             className={`flex-1 text-center py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all ${
               activeView === 'tracker' && !showFavs
-                ? 'bg-white/[0.04] border border-white/[0.06] text-white'
-                : 'text-slate-500 hover:text-slate-300'
+                ? 'bg-bg-page border border-border-theme text-text-main'
+                : 'text-text-muted hover:text-text-sub'
             }`}
           >
             Tracker
@@ -163,4 +185,5 @@ export default function Header({
     </>
   );
 }
+
 

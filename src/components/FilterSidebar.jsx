@@ -15,13 +15,13 @@ function FilterSection({ title, icon, children, defaultOpen = true }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-white/[0.04] pb-4">
+    <div className="border-b border-border-theme pb-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between py-2 text-sm font-semibold text-slate-200 transition-colors hover:text-white"
+        className="flex w-full items-center justify-between py-2 text-sm font-bold text-text-main transition-colors hover:text-accent cursor-pointer"
       >
         <span className="flex items-center gap-2">
-          {icon}
+          <span className="text-accent">{icon}</span>
           {title}
         </span>
         <svg
@@ -30,8 +30,8 @@ function FilterSection({ title, icon, children, defaultOpen = true }) {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
-          className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          strokeWidth="2.5"
+          className={`transition-transform duration-250 ${isOpen ? 'rotate-180' : ''}`}
         >
           <path d="M6 9l6 6 6-6" />
         </svg>
@@ -47,7 +47,7 @@ function CheckboxGroup({ options, selected, onChange }) {
       {options.map((option) => (
         <label
           key={option}
-          className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm text-slate-300 transition-colors hover:bg-white/[0.04] hover:text-white"
+          className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-text-sub transition-colors hover:bg-bg-page hover:text-text-main"
         >
           <div className="relative flex items-center">
             <input
@@ -59,7 +59,7 @@ function CheckboxGroup({ options, selected, onChange }) {
                   : [...selected, option];
                 onChange(next);
               }}
-              className="peer h-4 w-4 appearance-none rounded border border-white/20 bg-white/[0.04] transition-all checked:border-indigo-500 checked:bg-indigo-500"
+              className="peer h-4 w-4 appearance-none rounded border border-border-theme bg-input transition-all checked:border-accent checked:bg-accent cursor-pointer"
             />
             <svg
               width="10"
@@ -67,10 +67,10 @@ function CheckboxGroup({ options, selected, onChange }) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="white"
-              strokeWidth="3"
+              strokeWidth="3.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="absolute left-[3px] hidden peer-checked:block"
+              className="absolute left-[3px] hidden peer-checked:block pointer-events-none"
             >
               <path d="M20 6L9 17l-5-5" />
             </svg>
@@ -105,15 +105,15 @@ export default function FilterSidebar({
       {/* Search */}
       <div className="relative">
         <svg
-          width="18"
-          height="18"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#64748b"
-          strokeWidth="2"
+          stroke="currentColor"
+          strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="absolute left-3 top-1/2 -translate-y-1/2"
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted"
         >
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
@@ -123,7 +123,7 @@ export default function FilterSidebar({
           placeholder="Search by title, company..."
           value={searchValue}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-indigo-500/40 focus:bg-white/[0.05] focus:ring-1 focus:ring-indigo-500/20"
+          className="w-full rounded-xl border border-border-theme bg-input py-2.5 pl-10 pr-4 text-xs text-text-main placeholder-text-muted outline-none transition-all focus:border-accent/40 focus:bg-bg-page focus:ring-1 focus:ring-accent/10"
         />
       </div>
 
@@ -131,9 +131,9 @@ export default function FilterSidebar({
       {hasActiveFilters && (
         <button
           onClick={onClearFilters}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] py-2 text-sm font-medium text-slate-300 transition-all hover:border-red-500/20 hover:bg-red-500/5 hover:text-red-400"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border-theme bg-card py-2.5 text-xs font-bold text-text-sub transition-all hover:border-red-500/25 hover:bg-red-500/5 hover:text-red-500 cursor-pointer"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
           Clear All Filters
@@ -144,7 +144,7 @@ export default function FilterSidebar({
       <FilterSection
         title="Profile"
         icon={
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
@@ -161,7 +161,7 @@ export default function FilterSidebar({
       <FilterSection
         title="Location"
         icon={
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
             <circle cx="12" cy="10" r="3" />
           </svg>
@@ -178,7 +178,7 @@ export default function FilterSidebar({
       <FilterSection
         title="Duration"
         icon={
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <circle cx="12" cy="12" r="10" />
             <path d="M12 6v6l4 2" />
           </svg>
@@ -195,34 +195,37 @@ export default function FilterSidebar({
       <FilterSection
         title="Stipend Range"
         icon={
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <line x1="12" y1="1" x2="12" y2="23" />
             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
           </svg>
         }
       >
         <div className="grid grid-cols-2 gap-1.5">
-          {STIPEND_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() =>
-                onFilterChange({ ...filters, stipend: opt.value })
-              }
-              className={`rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all ${
-                filters.stipend === opt.value || (!filters.stipend && opt.value === 'all')
-                  ? 'border-indigo-500/40 bg-indigo-500/15 text-indigo-300'
-                  : 'border-white/[0.06] bg-white/[0.02] text-slate-400 hover:border-white/10 hover:text-slate-300'
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+          {STIPEND_OPTIONS.map((opt) => {
+            const isSelected = filters.stipend === opt.value || (!filters.stipend && opt.value === 'all');
+            return (
+              <button
+                key={opt.value}
+                onClick={() =>
+                  onFilterChange({ ...filters, stipend: opt.value })
+                }
+                className={`rounded-lg border px-2 py-2 text-[10px] font-bold transition-all cursor-pointer ${
+                  isSelected
+                    ? 'border-accent bg-accent-bg text-accent'
+                    : 'border-border-theme bg-card text-text-sub hover:border-border-theme hover:text-text-main'
+                }`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
         </div>
       </FilterSection>
 
       {/* Work from Home Toggle */}
-      <div className="flex items-center justify-between rounded-xl border border-white/[0.04] bg-white/[0.02] p-3">
-        <span className="flex items-center gap-2 text-sm font-medium text-slate-300">
+      <div className="flex items-center justify-between rounded-xl border border-border-theme bg-card p-3">
+        <span className="flex items-center gap-2 text-xs font-bold text-text-sub">
           <span>🏠</span>
           Work from Home
         </span>
@@ -230,15 +233,15 @@ export default function FilterSidebar({
           onClick={() =>
             onFilterChange({ ...filters, workFromHome: !filters.workFromHome })
           }
-          className={`relative h-6 w-11 rounded-full transition-all ${
+          className={`relative h-5 w-9 rounded-full transition-all cursor-pointer ${
             filters.workFromHome
-              ? 'bg-gradient-to-r from-indigo-500 to-violet-500'
-              : 'bg-white/10'
+              ? 'bg-accent'
+              : 'bg-border-theme'
           }`}
         >
           <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-all ${
-              filters.workFromHome ? 'left-[22px]' : 'left-0.5'
+            className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-all ${
+              filters.workFromHome ? 'left-[18px]' : 'left-0.5'
             }`}
           />
         </button>
@@ -250,8 +253,8 @@ export default function FilterSidebar({
     <>
       {/* Desktop sidebar */}
       <aside className="hidden lg:block w-72 shrink-0">
-        <div className="sticky top-20 space-y-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4 backdrop-blur-sm">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400">
+        <div className="sticky top-20 space-y-4 rounded-2xl border border-border-theme bg-card p-4 transition-all duration-300">
+          <h2 className="text-xs font-black uppercase tracking-wider text-text-muted select-none">
             Filters
           </h2>
           {sidebarContent}
@@ -262,19 +265,19 @@ export default function FilterSidebar({
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
             onClick={onMobileClose}
           />
-          <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto bg-[#0e0e18] p-4 shadow-2xl">
+          <div className="absolute left-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto bg-card border-r border-border-theme p-4 shadow-2xl animate-fade-in">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-slate-400">
+              <h2 className="text-xs font-black uppercase tracking-wider text-text-muted">
                 Filters
               </h2>
               <button
                 onClick={onMobileClose}
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.06] text-slate-400 hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-bg-page border border-border-theme text-text-sub hover:text-text-main cursor-pointer"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>
@@ -286,3 +289,4 @@ export default function FilterSidebar({
     </>
   );
 }
+
